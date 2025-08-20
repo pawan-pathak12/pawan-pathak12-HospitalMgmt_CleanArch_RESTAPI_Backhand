@@ -1,0 +1,11 @@
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Domain\bin\Debug\net9.0\HospitalManagment.Domain.deps.json
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Domain\bin\Debug\net9.0\HospitalManagment.Domain.dll
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Domain\bin\Debug\net9.0\HospitalManagment.Domain.pdb
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Domain\obj\Debug\net9.0\HospitalManagment.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Domain\obj\Debug\net9.0\HospitalManagment.Domain.AssemblyInfoInputs.cache
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Domain\obj\Debug\net9.0\HospitalManagment.Domain.AssemblyInfo.cs
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Domain\obj\Debug\net9.0\HospitalManagment.Domain.csproj.CoreCompileInputs.cache
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Domain\obj\Debug\net9.0\HospitalManagment.Domain.dll
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Domain\obj\Debug\net9.0\refint\HospitalManagment.Domain.dll
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Domain\obj\Debug\net9.0\HospitalManagment.Domain.pdb
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Domain\obj\Debug\net9.0\ref\HospitalManagment.Domain.dll

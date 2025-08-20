@@ -1,0 +1,17 @@
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Infrastucture\bin\Debug\net9.0\HospitalManagment.Infrastucture.deps.json
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Infrastucture\bin\Debug\net9.0\HospitalManagment.Infrastucture.dll
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Infrastucture\bin\Debug\net9.0\HospitalManagment.Infrastucture.pdb
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Infrastucture\bin\Debug\net9.0\HospitalManagment.Application.dll
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Infrastucture\bin\Debug\net9.0\HospitalManagment.Domain.dll
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Infrastucture\bin\Debug\net9.0\HospitalManagment.Application.pdb
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Infrastucture\bin\Debug\net9.0\HospitalManagment.Domain.pdb
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Infrastucture\obj\Debug\net9.0\HospitalManagment.Infrastucture.csproj.AssemblyReference.cache
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Infrastucture\obj\Debug\net9.0\HospitalManagment.Infrastucture.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Infrastucture\obj\Debug\net9.0\HospitalManagment.Infrastucture.AssemblyInfoInputs.cache
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Infrastucture\obj\Debug\net9.0\HospitalManagment.Infrastucture.AssemblyInfo.cs
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Infrastucture\obj\Debug\net9.0\HospitalManagment.Infrastucture.csproj.CoreCompileInputs.cache
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Infrastucture\obj\Debug\net9.0\Hospital.7BFBC298.Up2Date
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Infrastucture\obj\Debug\net9.0\HospitalManagment.Infrastucture.dll
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Infrastucture\obj\Debug\net9.0\refint\HospitalManagment.Infrastucture.dll
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Infrastucture\obj\Debug\net9.0\HospitalManagment.Infrastucture.pdb
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Infrastucture\obj\Debug\net9.0\ref\HospitalManagment.Infrastucture.dll

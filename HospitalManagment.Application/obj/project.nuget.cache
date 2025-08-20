@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "yxL8QyHzN1I=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\NITRO V\\source\\repos\\Clean Arcticture\\Dapper\\2\\HospitalManagment.Application\\HospitalManagment.Application.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\NITRO V\\.nuget\\packages\\mediatr\\12.1.1\\mediatr.12.1.1.nupkg.sha512",
+    "C:\\Users\\NITRO V\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
+    "C:\\Users\\NITRO V\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512",
+    "C:\\Users\\NITRO V\\.nuget\\packages\\microsoft.openapi\\1.6.23\\microsoft.openapi.1.6.23.nupkg.sha512",
+    "C:\\Users\\NITRO V\\.nuget\\packages\\swashbuckle.aspnetcore.annotations\\9.0.3\\swashbuckle.aspnetcore.annotations.9.0.3.nupkg.sha512",
+    "C:\\Users\\NITRO V\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\9.0.3\\swashbuckle.aspnetcore.swagger.9.0.3.nupkg.sha512",
+    "C:\\Users\\NITRO V\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\9.0.3\\swashbuckle.aspnetcore.swaggergen.9.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

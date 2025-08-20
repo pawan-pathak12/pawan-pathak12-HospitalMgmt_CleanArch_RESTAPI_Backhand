@@ -1,0 +1,77 @@
+﻿using Dapper;
+using HospitalManagment.Application.Interfaces;
+using HospitalManagment.Domain.Entity;
+using HospitalManagment.Infrastucture.Data;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
+using System.IO.Pipes;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace HospitalManagment.Infrastucture.Repository
+{
+    public class PatientRepository : IPatientRepository
+    {
+        private readonly DapperDbContext _dapperDbContext;
+        public PatientRepository(DapperDbContext dapperDbContext)
+        {
+            _dapperDbContext = dapperDbContext;
+        }
+        #region CURD Operations 
+        async Task<Patient> IPatientRepository.AddAsync(Patient patient)
+        {
+            using var connection = _dapperDbContext.Connection();
+            var sql = "INSERT INTO Patients (FullName, Age, Gender, Address, Email, PhoneNumber) VALUES  (@FullName, @Age, @Gender, @Address, @Email, @PhoneNumber)";
+            await connection.ExecuteAsync(sql, patient);
+            return patient;
+        }
+
+        async Task<bool> IPatientRepository.DeleteAsync(int id)
+        {
+            using var connection = _dapperDbContext.Connection();
+            var sql = "Delete from Patients where Id=@Id";
+            var result = await connection.ExecuteAsync(sql, new { Id = id });
+            return result > 0;
+        }
+
+        async Task<IEnumerable<Patient>> IPatientRepository.GetAllAsync()
+        {
+            using var connection = _dapperDbContext.Connection();
+            var sql = "Select * from Patients";
+            var result = await connection.QueryAsync<Patient>(sql);
+            return result;
+        }
+
+        async Task<Patient> IPatientRepository.GetByIdAsync(int id)
+        {
+            using var connection = _dapperDbContext.Connection();
+            var sql = "Select * from Patients where Id=@Id";
+            var result = await connection.QueryFirstOrDefaultAsync<Patient>(sql, new {Id =id});
+            return result;
+        }
+        async Task<bool> IPatientRepository.UpdateAsync(int id, Patient patient)
+        {
+            using var connection = _dapperDbContext.Connection();
+            var sql = " UPDATE Patients SET FullName = @FullName,Age = @Age,  Gender = @Gender, Address = @Address,Email = @Email, PhoneNumber = @PhoneNumber WHERE Id = @Id";
+            var result = await connection.ExecuteAsync(sql, new { Id = id, patient.Address, patient.Age, patient.Email, patient.FullName, patient.Gender, patient.PhoneNumber });
+            return result > 0;
+        }
+        #endregion 
+        async Task<IEnumerable<Patient>> IPatientRepository.GetByNameAsync(string name)
+        {
+            using var connection = _dapperDbContext.Connection();
+            var query = "Select * from Patients where Lower(FullName) like Lower(@FullName)";
+
+            return await connection.QueryAsync<Patient>(query, new {FullName= $"%{name}%" });
+        }
+
+        async Task IPatientRepository.SetPatientBlockUntilAsync(DateTime blockedDate, int patientId)
+        {
+            using var connection = _dapperDbContext.Connection();
+            var query = "update Patients Set BlockedDate=@BlockedDate where Id=@PatientId ";
+            await connection.ExecuteAsync(query, new { blockedDate = blockedDate, Id = patientId });
+        }
+    }
+}
