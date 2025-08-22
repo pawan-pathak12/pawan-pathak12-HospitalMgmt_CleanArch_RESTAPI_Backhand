@@ -15,3 +15,4 @@ C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Infras
 C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Infrastucture\obj\Debug\net9.0\refint\HospitalManagment.Infrastucture.dll
 C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Infrastucture\obj\Debug\net9.0\HospitalManagment.Infrastucture.pdb
 C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Infrastucture\obj\Debug\net9.0\ref\HospitalManagment.Infrastucture.dll
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Infrastucture\obj\Debug\net9.0\HospitalManagment.Infrastucture.sourcelink.json

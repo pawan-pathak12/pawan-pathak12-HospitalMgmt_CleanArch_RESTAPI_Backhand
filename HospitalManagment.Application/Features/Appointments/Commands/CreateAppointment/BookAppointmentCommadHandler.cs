@@ -1,4 +1,5 @@
-﻿using HospitalManagment.Application.Interfaces;
+﻿using AutoMapper;
+using HospitalManagment.Application.Interfaces;
 using HospitalManagment.Domain.Entity;
 using MediatR;
 
@@ -6,17 +7,21 @@ namespace HospitalManagment.Application.Features.Appointments.Commands.CreateApp
 {
     public class BookAppointmentCommadHandler : IRequestHandler<BookAppointmentCommand, Appointment>
     {
+        #region Private Field
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IDoctorRepository _doctorRepository;
         private readonly IPatientRepository _patientRepository;
         private readonly IAppointmentLogicTester _appointmentLogicTester;
+        private readonly IMapper _mapper;
+        #endregion
 
-        public BookAppointmentCommadHandler(IAppointmentRepository repository, IDoctorRepository doctorRepository, IPatientRepository patientRepository, IAppointmentLogicTester appointmentLogicTester)
+        public BookAppointmentCommadHandler(IAppointmentRepository repository, IDoctorRepository doctorRepository, IPatientRepository patientRepository, IAppointmentLogicTester appointmentLogicTester ,IMapper mapper)
         {
             this._appointmentRepository = repository;
             this._doctorRepository = doctorRepository;
             this._patientRepository = patientRepository;
             this._appointmentLogicTester = appointmentLogicTester;
+            this._mapper = mapper;
         }
         public async Task<Appointment> Handle(BookAppointmentCommand request, CancellationToken cancellationToken)
         {
@@ -43,16 +48,10 @@ namespace HospitalManagment.Application.Features.Appointments.Commands.CreateApp
             await BookingDateValidationAsync(request);
             await CheckAndBlockPatientAsync(request.Appointment.PatientId); // not tested in swagger
 
-            //mapping
-            var appointment = new Appointment
-            {
-                AppointmentDate = request.Appointment.AppointmentDate,
-                DoctorId = request.Appointment.DoctorId,
-                //EndTime = endtime,
-                StartTime = request.Appointment.StartTime,
-                PatientId = request.Appointment.PatientId,
-                Status = request.Appointment.Status
-            };
+            // auto-mapper 
+            var appointment = _mapper.Map<Appointment>(request.Appointment);
+            //Manual Override For endtime
+            appointment.EndTime = endtime;
             return await _appointmentRepository.AddAsync(appointment);
         }
 

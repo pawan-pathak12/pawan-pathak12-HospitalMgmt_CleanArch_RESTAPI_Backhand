@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "BnPE5Tq/G/E=",
+  "dgSpecHash": "xvdMdiIgbw8=",
   "success": true,
   "projectFilePath": "C:\\Users\\NITRO V\\source\\repos\\Clean Arcticture\\Dapper\\2\\HospitalManagment.Infrastucture\\HospitalManagment.Infrastucture.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\NITRO V\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\NITRO V\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "C:\\Users\\NITRO V\\.nuget\\packages\\azure.core\\1.44.1\\azure.core.1.44.1.nupkg.sha512",
     "C:\\Users\\NITRO V\\.nuget\\packages\\azure.identity\\1.13.2\\azure.identity.1.13.2.nupkg.sha512",
     "C:\\Users\\NITRO V\\.nuget\\packages\\dapper\\2.1.66\\dapper.2.1.66.nupkg.sha512",
@@ -11,6 +13,7 @@
     "C:\\Users\\NITRO V\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
     "C:\\Users\\NITRO V\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "C:\\Users\\NITRO V\\.nuget\\packages\\microsoft.bcl.cryptography\\9.0.4\\microsoft.bcl.cryptography.9.0.4.nupkg.sha512",
+    "C:\\Users\\NITRO V\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\NITRO V\\.nuget\\packages\\microsoft.data.sqlclient\\6.1.0\\microsoft.data.sqlclient.6.1.0.nupkg.sha512",
     "C:\\Users\\NITRO V\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\6.0.2\\microsoft.data.sqlclient.sni.runtime.6.0.2.nupkg.sha512",
     "C:\\Users\\NITRO V\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\9.0.4\\microsoft.extensions.caching.abstractions.9.0.4.nupkg.sha512",

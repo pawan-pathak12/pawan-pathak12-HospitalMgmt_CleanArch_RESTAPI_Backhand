@@ -13,3 +13,4 @@ C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Applic
 C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Application\obj\Debug\net9.0\refint\HospitalManagment.Application.dll
 C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Application\obj\Debug\net9.0\HospitalManagment.Application.pdb
 C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Application\obj\Debug\net9.0\ref\HospitalManagment.Application.dll
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Application\obj\Debug\net9.0\HospitalManagment.Application.sourcelink.json
