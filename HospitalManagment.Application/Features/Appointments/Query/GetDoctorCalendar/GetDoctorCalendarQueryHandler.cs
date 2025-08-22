@@ -1,4 +1,6 @@
-﻿using HospitalManagment.Application.Features.Appointments.DTOs;
+﻿using AutoMapper;
+using HospitalManagment.Application.Features.Appointments.DTOs;
+using HospitalManagment.Application.Features.Doctors.DTOs;
 using HospitalManagment.Application.Interfaces;
 using MediatR;
 
@@ -8,11 +10,13 @@ namespace HospitalManagment.Application.Features.Appointments.Query.GetDoctorCal
     {
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IDoctorRepository _doctorRepository;
+        private readonly IMapper _mapper;
 
-        public GetDoctorCalendarQueryHandler(IAppointmentRepository appointmentRepository, IDoctorRepository doctorRepository)
+        public GetDoctorCalendarQueryHandler(IAppointmentRepository appointmentRepository, IDoctorRepository doctorRepository ,IMapper mapper)
         {
             this._appointmentRepository = appointmentRepository;
             this._doctorRepository = doctorRepository;
+            this._mapper = mapper;
         }
         public async Task<IEnumerable<AppointmentDto>> Handle(GetDoctorCalendarQuery request, CancellationToken cancellationToken)
         {
@@ -26,16 +30,8 @@ namespace HospitalManagment.Application.Features.Appointments.Query.GetDoctorCal
             {
                 throw new Exception($"Their is no appointment for doctor Id {request.DoctorId} till now .");
             }
-           
-            var doctorCalender = result.Select(a => new AppointmentDto
-            {
-                AppointmentDate = a.AppointmentDate,
-                PatientId = a.PatientId,
-                StartTime = a.StartTime,
-                EndTime = a.EndTime,
-                Id = a.Id
-
-            });
+            var doctorCalender = _mapper.Map<IEnumerable<AppointmentDto>>(result);
+          
             return doctorCalender;
         }
     }

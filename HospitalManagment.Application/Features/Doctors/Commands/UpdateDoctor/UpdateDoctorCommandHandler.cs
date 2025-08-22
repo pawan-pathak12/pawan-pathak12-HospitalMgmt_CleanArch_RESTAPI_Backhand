@@ -1,4 +1,5 @@
-﻿using HospitalManagment.Application.Interfaces;
+﻿using AutoMapper;
+using HospitalManagment.Application.Interfaces;
 using HospitalManagment.Domain.Entity;
 using MediatR;
 
@@ -7,10 +8,12 @@ namespace HospitalManagment.Application.Features.Doctors.Commands.UpdateDoctor
     internal class UpdateDoctorCommandHandler : IRequestHandler<UpdateDoctorCommand, Unit>
     {
         private readonly IDoctorRepository _repository;
+        private readonly IMapper _mapper;
 
-        public UpdateDoctorCommandHandler(IDoctorRepository repository)
+        public UpdateDoctorCommandHandler(IDoctorRepository repository ,IMapper mapper)
         {
             this._repository = repository;
+            this._mapper = mapper;
         }
         public async Task<Unit> Handle(UpdateDoctorCommand request, CancellationToken cancellationToken)
         {
@@ -19,17 +22,8 @@ namespace HospitalManagment.Application.Features.Doctors.Commands.UpdateDoctor
             {
                 throw new Exception("Error or Update Failed");
             }
-            var doctor = new Doctor
-            {
-                AvailableEndTime = request.Doctor.AvailableEndTime,
-                AvailableStartTime = request.Doctor.AvailableStartTime,
-                Email = request.Doctor.Email,
-                FullName = request.Doctor.FullName,
-                Phone = request.Doctor.Phone,
-                Specialization = request.Doctor.Specialization
-
-            };
-            await _repository.UpdateAsync(request.Doctor.Id, doctor);
+            var docotorEntity = _mapper.Map<Doctor>(request.Doctor);           
+            await _repository.UpdateAsync(request.Doctor.Id, docotorEntity);
             return Unit.Value;
         }
     }
