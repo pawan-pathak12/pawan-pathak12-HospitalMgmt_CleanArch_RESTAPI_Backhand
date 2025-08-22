@@ -49,7 +49,7 @@ namespace HospitalManagment.Infrastucture.Repository
         async Task<bool> IDoctorRepository.UpdateAsync(int id, Doctor doctor)
         {
             using var connection = _dapperDbContext.Connection();
-            var sql = "UPDATE Doctors SET FullName = @FullName,Specialization = @Specialization,   Phone = @Phone,    Email = @Email,  AvailableStartTime = @AvailableStartTime,  IsActive=@IsActive  AvailableEndTime = @AvailableEndTime WHERE Id = @Id";
+            var sql = "UPDATE Doctors SET FullName = @FullName,Specialization = @Specialization,   Phone = @Phone,    Email = @Email,  AvailableStartTime = @AvailableStartTime,  IsActive=@IsActive , AvailableEndTime = @AvailableEndTime WHERE Id = @Id";
             var result = await connection.ExecuteAsync(sql, new { Id = id, doctor.AvailableEndTime, doctor.AvailableStartTime, doctor.FullName, doctor.Phone, doctor.Specialization, doctor.Email ,doctor.IsActive });
             return result > 0;
 
