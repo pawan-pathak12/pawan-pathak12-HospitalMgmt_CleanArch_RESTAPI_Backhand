@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using HospitalManagment.Application.Features.Appointments.DTOs;
 using HospitalManagment.Application.Interfaces;
 using HospitalManagment.Domain.Entity;
 using HospitalManagment.Domain.Enums;
@@ -164,6 +165,11 @@ namespace HospitalManagment.Infrastucture.Repository
             var query = "Update Appointments Set Status=@NewStatus where Status=@OldStatus and AppointmentDate <= @CurrentDate";
             var result = await connection.ExecuteAsync(query, new { OldStatus = AppointmentStatus.Scheduled, NewStatus = AppointmentStatus.NotShown, CurrentDate = DateTime.UtcNow });
             return result > 0;
+        }
+
+        Task<IEnumerable<SlotDto>> IAppointmentRepository.GetAvailableSlotAsync(int doctorId)
+        {
+            throw new NotImplementedException();
         }
     }
 }
