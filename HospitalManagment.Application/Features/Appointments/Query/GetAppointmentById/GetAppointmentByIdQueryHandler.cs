@@ -1,4 +1,5 @@
-﻿using HospitalManagment.Application.Features.Appointments.DTOs;
+﻿using AutoMapper;
+using HospitalManagment.Application.Features.Appointments.DTOs;
 using HospitalManagment.Application.Interfaces;
 using MediatR;
 
@@ -7,10 +8,12 @@ namespace HospitalManagment.Application.Features.Appointments.Query.GetAppointme
     public class GetAppointmentByIdQueryHandler : IRequestHandler<GetAppointmentByIdQuery, AppointmentDto>
     {
         private readonly IAppointmentRepository _repository;
+        private readonly IMapper _mapper;
 
-        public GetAppointmentByIdQueryHandler(IAppointmentRepository repository)
+        public GetAppointmentByIdQueryHandler(IAppointmentRepository repository ,IMapper mapper)
         {
             this._repository = repository;
+            this._mapper = mapper;
         }
         public async Task<AppointmentDto> Handle(GetAppointmentByIdQuery request, CancellationToken cancellation)
         {
@@ -19,17 +22,9 @@ namespace HospitalManagment.Application.Features.Appointments.Query.GetAppointme
             {
                 throw new Exception($"Their is no appointment with id {request.Id}.");
             }
-            var result = new AppointmentDto
-            {
-                Id = appointment.Id,
-                AppointmentDate = appointment.AppointmentDate,
-                DoctorId = appointment.DoctorId,
-                EndTime = appointment.EndTime,
-                PatientId = appointment.PatientId,
-                StartTime = appointment.StartTime,
-                Status = appointment.Status
-            };
-            return result;
+            var appointmentEntity = _mapper.Map<AppointmentDto>(appointment);
+         
+            return appointmentEntity;
         }
     }
 }
