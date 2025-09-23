@@ -1,28 +1,26 @@
-﻿
-using HospitalManagment.Application.Features.Doctors.DTOs;
+﻿using HospitalManagment.Application.Features.Doctors.DTOs;
 using HospitalManagment.Domain.Entity;
 
-namespace HospitalManagment.Application.Interfaces
+namespace HospitalManagment.Application.Interfaces;
+
+public interface IDoctorRepository
 {
-    public interface IDoctorRepository
-    {
-        #region CURD Operations
-        Task<IEnumerable<Doctor>> GetAllAsync();
+    Task<bool> IsDoctorActiveAsync(int doctorId);
+    Task<IEnumerable<Doctor>> GetActiveDoctorAsync();
+    Task<IEnumerable<Doctor>> GetInActiveDoctor();
+    Task<DoctorWorkingHourDto> GetDoctorWorkingHourAsync(int doctorId);
 
-        Task<Doctor> GetByIdAsync(int id);
+    #region CURD Operations
 
-        Task<Doctor> AddAsync(Doctor doctor);
+    Task<IEnumerable<Doctor>> GetAllAsync();
 
-        Task<bool> UpdateAsync(int id, Doctor doctor);
+    Task<Doctor> GetByIdAsync(int id);
 
-        Task<bool> DeleteAsync(int id);
+    Task<Doctor> AddAsync(Doctor doctor);
 
-        #endregion
+    Task<bool> UpdateAsync(int id, Doctor doctor);
 
-        Task<bool> IsDoctorActiveAsync(int doctorId);
-        Task<IEnumerable<Doctor>> GetActiveDoctorAsync();
-        Task<IEnumerable<Doctor>> GetInActiveDoctor();
-        Task<DoctorWorkingHourDto> GetDoctorWorkingHourAsync(int doctorId);
+    Task<bool> DeleteAsync(int id);
 
-    }
+    #endregion
 }
