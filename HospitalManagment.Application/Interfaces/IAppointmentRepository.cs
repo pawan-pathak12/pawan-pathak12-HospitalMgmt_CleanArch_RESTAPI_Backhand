@@ -1,5 +1,4 @@
-﻿using HospitalManagment.Application.Features.Appointments.DTOs;
-using HospitalManagment.Domain.Entity;
+﻿using HospitalManagment.Domain.Entity;
 
 namespace HospitalManagment.Application.Interfaces
 {
@@ -38,6 +37,6 @@ namespace HospitalManagment.Application.Interfaces
 
         Task<IEnumerable<int>> GetPastScheduledAppointmentsAsync();
         Task<bool> MarkAppointmentsAsNotShownAsync();
-        Task<IEnumerable<SlotDto>> GetAvailableSlotAsync(int doctorId);
+        //  Task<IEnumerable<SlotDto>> GetAvailableSlotAsync(int doctorId);
     }
 }
