@@ -47,4 +47,13 @@ public class AppointmentLogicTesterRepository : IAppointmentLogicTester
             new { PatientId = patientId, Status1 = AppointmentStatus.Cancelled, Status2 = AppointmentStatus.NotShown });
         return result;
     }
+
+    //get total number of appointment doctor have till now 
+    public async Task<int> GetDoctorAppointmentCountAsync(int doctorId)
+    {
+        using var connection = _dapperDbContext.Connection();
+        var query = "Select count (1) from Appointments where DoctorId=@DoctorId";
+        var result = await connection.ExecuteScalarAsync<int>(query, new { DoctorId = doctorId });
+        return result;
+    }
 }
