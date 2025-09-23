@@ -23,18 +23,8 @@ namespace HospitalManagment.Application.Features.Patients.Commands.UpdatePatient
             {
                 throw new Exception("Error or update failed.");
             }
-            var patient = _mapper.Map<Patient>(request.Patient);
-            //var patient = new Patient
-            //{
-            //    Id = request.Patient.Id,
-            //    FullName = request.Patient.FullName,
-            //    Address = request.Patient.Address,
-            //    Age = request.Patient.Age,
-            //    Email = request.Patient.Email,
-            //    Gender = request.Patient.Gender,
-            //    PhoneNumber = request.Patient.PhoneNumber
-            //};
 
+            var patient = _mapper.Map<Patient>(request.Patient);
             await _repository.UpdateAsync(request.Patient.Id, patient);
             return Unit.Value;
         }

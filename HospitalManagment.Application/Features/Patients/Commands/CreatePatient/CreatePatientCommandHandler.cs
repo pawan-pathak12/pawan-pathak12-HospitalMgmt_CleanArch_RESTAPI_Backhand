@@ -19,16 +19,6 @@ namespace HospitalManagment.Application.Features.Patients.Commands.CreatePatient
         public async Task<Patient> Handle(CreatePatientCommand request, CancellationToken cancellationToken)
         {
             var patient = _mapper.Map<Patient>(request.Patient);
-
-            //var patient = new Patient
-            //{
-            //    FullName = request.Patient.FullName,
-            //    Address = request.Patient.Address,
-            //    Age = request.Patient.Age,
-            //    Email = request.Patient.Email,
-            //    Gender = request.Patient.Gender,
-            //    PhoneNumber = request.Patient.PhoneNumber
-            //};
             var result = await _repository.AddAsync(patient);
             return result;
         }
