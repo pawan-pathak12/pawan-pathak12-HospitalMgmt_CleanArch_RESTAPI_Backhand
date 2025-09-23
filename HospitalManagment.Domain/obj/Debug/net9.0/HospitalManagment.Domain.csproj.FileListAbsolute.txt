@@ -9,3 +9,4 @@ C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Domain
 C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Domain\obj\Debug\net9.0\refint\HospitalManagment.Domain.dll
 C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Domain\obj\Debug\net9.0\HospitalManagment.Domain.pdb
 C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Domain\obj\Debug\net9.0\ref\HospitalManagment.Domain.dll
+C:\Users\NITRO V\source\repos\Clean Arcticture\Dapper\2\HospitalManagment.Domain\obj\Debug\net9.0\HospitalManagment.Domain.sourcelink.json

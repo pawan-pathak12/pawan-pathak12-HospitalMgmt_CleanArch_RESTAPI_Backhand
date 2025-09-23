@@ -54,9 +54,9 @@ namespace HospitalManagment.Infrastucture.Repository
             return result > 0;
 
         }
-        #endregion 
+        #endregion
 
-        
+        #region Doctor Validation and Logic 
         async Task<bool> IDoctorRepository.IsDoctorActiveAsync(int doctorId)
         {
             using var connection = _dapperDbContext.Connection();
@@ -90,5 +90,6 @@ namespace HospitalManagment.Infrastucture.Repository
             var result = await connection.QuerySingleOrDefaultAsync<DoctorWorkingHourDto>(query, new { DoctorId = doctorId });
             return result;
         }
+        #endregion
     }
 }
