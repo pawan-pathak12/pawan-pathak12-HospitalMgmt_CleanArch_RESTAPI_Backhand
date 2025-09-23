@@ -37,5 +37,6 @@ namespace HospitalManagment.Application.Interfaces
 
         Task<IEnumerable<int>> GetPastScheduledAppointmentsAsync();
         Task<bool> MarkAppointmentsAsNotShownAsync();
+        //  Task<IEnumerable<SlotDto>> GetAvailableSlotAsync(int doctorId);
     }
 }

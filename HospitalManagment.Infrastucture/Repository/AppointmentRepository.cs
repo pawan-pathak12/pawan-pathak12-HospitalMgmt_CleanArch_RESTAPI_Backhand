@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using HospitalManagment.Application.Features.Appointments.DTOs;
 using HospitalManagment.Application.Interfaces;
 using HospitalManagment.Domain.Entity;
 using HospitalManagment.Domain.Enums;
@@ -51,8 +52,6 @@ namespace HospitalManagment.Infrastucture.Repository
             return result > 0;
         }
         #endregion
-
-        #region  Appoitment Validation and Logic 
 
         #region Appointment Retrieval
         async Task<IEnumerable<Appointment>> IAppointmentRepository.GetAppointmentsForDoctorAsync(int doctorId)
@@ -167,7 +166,10 @@ namespace HospitalManagment.Infrastucture.Repository
             var result = await connection.ExecuteAsync(query, new { OldStatus = AppointmentStatus.Scheduled, NewStatus = AppointmentStatus.NotShown, CurrentDate = DateTime.UtcNow });
             return result > 0;
         }
-        
-        #endregion
+
+        Task<IEnumerable<SlotDto>> IAppointmentRepository.GetAvailableSlotAsync(int doctorId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
