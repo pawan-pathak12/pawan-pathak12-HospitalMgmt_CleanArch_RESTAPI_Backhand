@@ -1,4 +1,5 @@
-﻿using HospitalManagment.Application.Features.Appointments.DTOs;
+﻿using AutoMapper;
+using HospitalManagment.Application.Features.Appointments.DTOs;
 using HospitalManagment.Application.Interfaces;
 using MediatR;
 
@@ -7,10 +8,12 @@ namespace HospitalManagment.Application.Features.Appointments.Query.GetAllAppoin
     public class GetAllAppointmentQueryHandler : IRequestHandler<GetAllAppointmentQuery, IEnumerable<AppointmentDto>>
     {
         private readonly IAppointmentRepository _repository;
+        private readonly IMapper _mapper;
 
-        public GetAllAppointmentQueryHandler(IAppointmentRepository repository)
+        public GetAllAppointmentQueryHandler(IAppointmentRepository repository ,IMapper mapper)
         {
             this._repository = repository;
+            this._mapper = mapper;
         }
 
         public async Task<IEnumerable<AppointmentDto>> Handle(GetAllAppointmentQuery request, CancellationToken cancellationToken)
@@ -20,17 +23,9 @@ namespace HospitalManagment.Application.Features.Appointments.Query.GetAllAppoin
             {
                 throw new Exception("Their is no appointments");
             }
-            var result = appointments.Select(s => new AppointmentDto
-            {
-                AppointmentDate = s.AppointmentDate,
-                DoctorId = s.DoctorId,
-                EndTime = s.EndTime,
-                Id = s.Id,
-                PatientId = s.PatientId,
-                StartTime = s.StartTime,
-                Status = s.Status
-            });
-            return result;
+            var appointmentEntity = _mapper.Map<IEnumerable<AppointmentDto>>(appointments);
+           
+            return appointmentEntity;
         }
     }
 }

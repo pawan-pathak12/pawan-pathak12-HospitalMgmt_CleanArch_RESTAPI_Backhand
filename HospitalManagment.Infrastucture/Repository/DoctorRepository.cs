@@ -49,14 +49,14 @@ namespace HospitalManagment.Infrastucture.Repository
         async Task<bool> IDoctorRepository.UpdateAsync(int id, Doctor doctor)
         {
             using var connection = _dapperDbContext.Connection();
-            var sql = "UPDATE Doctors SET FullName = @FullName,Specialization = @Specialization,   Phone = @Phone,    Email = @Email,  AvailableStartTime = @AvailableStartTime,  IsActive=@IsActive  AvailableEndTime = @AvailableEndTime WHERE Id = @Id";
+            var sql = "UPDATE Doctors SET FullName = @FullName,Specialization = @Specialization,   Phone = @Phone,    Email = @Email,  AvailableStartTime = @AvailableStartTime,  IsActive=@IsActive , AvailableEndTime = @AvailableEndTime WHERE Id = @Id";
             var result = await connection.ExecuteAsync(sql, new { Id = id, doctor.AvailableEndTime, doctor.AvailableStartTime, doctor.FullName, doctor.Phone, doctor.Specialization, doctor.Email ,doctor.IsActive });
             return result > 0;
 
         }
-        #endregion 
+        #endregion
 
-        
+        #region Doctor Validation and Logic 
         async Task<bool> IDoctorRepository.IsDoctorActiveAsync(int doctorId)
         {
             using var connection = _dapperDbContext.Connection();
@@ -90,5 +90,6 @@ namespace HospitalManagment.Infrastucture.Repository
             var result = await connection.QuerySingleOrDefaultAsync<DoctorWorkingHourDto>(query, new { DoctorId = doctorId });
             return result;
         }
+        #endregion
     }
 }

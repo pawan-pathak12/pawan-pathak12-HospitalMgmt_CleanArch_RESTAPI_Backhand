@@ -22,18 +22,6 @@ namespace HospitalManagment.Application.Features.Doctors.Commands.CreateDoctor
 
             var doctorEntity = _mapper.Map<Doctor>(request.Doctor);
 
-            
-            //var doctor = new Doctor
-            //{
-            //    AvailableEndTime = request.Doctor.AvailableEndTime,
-            //    AvailableStartTime = request.Doctor.AvailableStartTime,
-            //    Email = request.Doctor.Email,
-            //    FullName = request.Doctor.FullName,
-            //    Phone = request.Doctor.Phone,
-            //    Specialization = request.Doctor.Specialization,
-
-            //};
-
             return await _repository.AddAsync(doctorEntity);
         }
     }

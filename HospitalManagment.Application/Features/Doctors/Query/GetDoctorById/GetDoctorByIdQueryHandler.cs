@@ -1,4 +1,5 @@
-﻿using HospitalManagment.Application.Features.Doctors.DTOs;
+﻿using AutoMapper;
+using HospitalManagment.Application.Features.Doctors.DTOs;
 using HospitalManagment.Application.Interfaces;
 using HospitalManagment.Domain.Entity;
 using MediatR;
@@ -13,10 +14,12 @@ namespace HospitalManagment.Application.Features.Doctors.Query.GetDoctorById
     internal class GetDoctorByIdQueryHandler:IRequestHandler<GetDoctorByIdQuery , DoctorDto>
     {
         private readonly IDoctorRepository _repository;
+        private readonly IMapper _mapper;
 
-        public GetDoctorByIdQueryHandler(IDoctorRepository repository)
+        public GetDoctorByIdQueryHandler(IDoctorRepository repository , IMapper mapper)
         {
             this._repository = repository;
+            this._mapper = mapper;
         }
         public async Task<DoctorDto> Handle(GetDoctorByIdQuery request , CancellationToken cancellationToken)
         {
@@ -25,16 +28,8 @@ namespace HospitalManagment.Application.Features.Doctors.Query.GetDoctorById
             {
                 throw new Exception($"Doctor with id {request.Id} not found");
             }
-            var doctor = new DoctorDto
-            {
-                Id = result.Id,
-                AvailableEndTime = result.AvailableEndTime,
-                AvailableStartTime = result.AvailableStartTime,
-                Email = result.Email,
-                FullName = result.FullName,
-                Phone = result.Phone,
-                Specialization = result.Specialization
-            };
+            var doctor = _mapper.Map<DoctorDto>(result);
+         
             return doctor;
         }
     }

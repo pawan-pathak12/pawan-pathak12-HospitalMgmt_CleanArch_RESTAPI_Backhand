@@ -2,13 +2,6 @@
 using HospitalManagment.Application.Interfaces;
 using HospitalManagment.Domain.Entity;
 using HospitalManagment.Infrastucture.Data;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.IO.Pipes;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HospitalManagment.Infrastucture.Repository
 {
