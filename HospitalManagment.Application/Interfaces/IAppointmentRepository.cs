@@ -7,6 +7,10 @@ public interface IAppointmentRepository
     Task<IEnumerable<int>> GetPastScheduledAppointmentsAsync();
     Task<bool> MarkAppointmentsAsNotShownAsync();
 
+
+    Task<int> GetAppointmentCountByDateAsync(int? year = null, int? month = null, int? day = null,
+        DateTime? date = null);
+
     #region curd operations
 
     Task<Appointment> AddAsync(Appointment appointment);

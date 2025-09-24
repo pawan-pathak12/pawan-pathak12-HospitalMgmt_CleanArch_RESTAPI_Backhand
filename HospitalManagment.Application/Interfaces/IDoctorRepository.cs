@@ -10,6 +10,8 @@ public interface IDoctorRepository
     Task<IEnumerable<Doctor>> GetInActiveDoctor();
     Task<DoctorWorkingHourDto> GetDoctorWorkingHourAsync(int doctorId);
 
+    Task<int> GetDoctorAppointmentCountByDateAsync(string type, int doctorId);
+
     #region CURD Operations
 
     Task<IEnumerable<Doctor>> GetAllAsync();
