@@ -64,6 +64,38 @@ public class AppointmentRepository : IAppointmentRepository
 
     #endregion
 
+    public async Task<int> GetAppointmentCountByDateAsync(int? year = null, int? month = null, int? day = null,
+        DateTime? date = null)
+    {
+        // combination : month and day  , year and month , (year , month , day )  , year only 
+        using var connection = _dbContext.Connection();
+        var sql = string.Empty;
+        switch (year.HasValue, month.HasValue, day.HasValue)
+        {
+            case (true, true, false):
+                // year + month
+                sql =
+                    "Select count (*) from Appointments where DatePart(Year , AppointmentDate) =@Year and DatePart(Month , AppointmentDate) =@Month";
+                return await connection.ExecuteScalarAsync<int>(sql, new { Year = year, Month = month });
+            case (false, true, true):
+                // month + day 
+                sql =
+                    "Select count (*) from Appointments where DatePart(Month , AppointmentDate) = @Month  and DatePart(Day , AppointmentDate)=@Day";
+                return await connection.ExecuteScalarAsync<int>(sql, new { Month = month, Day = day });
+            case (true, true, true):
+                // year - month - day 
+                sql = "select count (*) from Appointments where cast(AppointmentDate as Date) = cast(@Date as Date) ";
+                return await connection.ExecuteScalarAsync<int>(sql, new { Date = date });
+            case (true, false, false):
+                sql = "Select count (*) from Appointments where  DatePart(Year , AppointmentDate) = @Year";
+                return await connection.ExecuteScalarAsync<int>(sql, new { Year = year });
+            default:
+                return -1;
+        }
+    }
+
+    #region Extra
+
     async Task<IEnumerable<int>> IAppointmentRepository.GetPastScheduledAppointmentsAsync()
     {
         using var connection = _dbContext.Connection();
@@ -111,6 +143,8 @@ public class AppointmentRepository : IAppointmentRepository
     {
         throw new NotImplementedException();
     }
+
+    #endregion
 
     #region Curd Operations
 
