@@ -12,7 +12,7 @@ public interface IPatientRepository
 
     Task SetPatientBlockUntilAsync(DateTime blockedDate, int patientId);
 
-    Task<IEnumerable<Patient>> GetAppointmentsByDateAsync(string type, DateTime date);
+    Task<IEnumerable<Patient>> GetPatientsByAppointmentDateAsync(string type, DateTime date);
 
     #region CURD Operations
 

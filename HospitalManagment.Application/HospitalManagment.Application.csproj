@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <Folder Include="Features\LogicLab\Commands\" />
+    <Folder Include="Features\LogicLab\Query\GetPatientDoctorVisitCount\" />
   </ItemGroup>
 
 </Project>
