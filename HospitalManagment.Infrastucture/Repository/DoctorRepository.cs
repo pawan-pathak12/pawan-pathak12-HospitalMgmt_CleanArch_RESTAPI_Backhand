@@ -43,7 +43,7 @@ public class DoctorRepository : IDoctorRepository
         return result;
     }
 
-    async Task<Doctor> IDoctorRepository.GetByIdAsync(int id)
+    async Task<Doctor> IDoctorRepository.GetByIdAsync(int? id)
     {
         using var connection = _dapperDbContext.Connection();
         var sql = "Select * from Doctors where Id=@Id";

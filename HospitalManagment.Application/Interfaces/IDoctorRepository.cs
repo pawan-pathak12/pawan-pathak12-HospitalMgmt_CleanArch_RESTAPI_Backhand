@@ -16,7 +16,7 @@ public interface IDoctorRepository
 
     Task<IEnumerable<Doctor>> GetAllAsync();
 
-    Task<Doctor> GetByIdAsync(int id);
+    Task<Doctor> GetByIdAsync(int? id);
 
     Task<Doctor> AddAsync(Doctor doctor);
 
