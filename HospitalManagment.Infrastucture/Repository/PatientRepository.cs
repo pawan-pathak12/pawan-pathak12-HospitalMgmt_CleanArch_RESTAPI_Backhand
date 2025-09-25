@@ -33,7 +33,7 @@ public class PatientRepository : IPatientRepository
         return result > 0;
     }
 
-    public async Task<IEnumerable<Patient>> GetAppointmentsByDateAsync(string type, DateTime date)
+    public async Task<IEnumerable<Patient>> GetPatientsByAppointmentDateAsync(string type, DateTime date)
     {
         using var connection = _dapperDbContext.Connection();
         var sql = string.Empty;
