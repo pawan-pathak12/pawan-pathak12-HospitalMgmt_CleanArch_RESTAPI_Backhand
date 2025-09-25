@@ -64,6 +64,8 @@ public class AppointmentRepository : IAppointmentRepository
 
     #endregion
 
+    #region Appointment Count
+
     public async Task<int> GetAppointmentCountByDateAsync(int? year = null, int? month = null, int? day = null,
         DateTime? date = null)
     {
@@ -93,6 +95,29 @@ public class AppointmentRepository : IAppointmentRepository
                 return -1;
         }
     }
+
+    #endregion
+
+    public async Task<int> CountAppoitmentBetweenDateAsync(int? doctorId, DateTime startDate, DateTime endDate)
+    {
+        using var connection = _dbContext.Connection();
+        var sql = string.Empty;
+        if (doctorId.HasValue)
+        {
+            sql =
+                @"SELECT COUNT(*)  FROM Appointments WHERE cast (AppointmentDate as Date) BETWEEN @StartDate AND @EndDate AND DoctorId = @DoctorId";
+
+            return await connection.ExecuteScalarAsync<int>(sql,
+                new { StartDate = startDate, EndDate = endDate, DoctorId = doctorId });
+        }
+
+        sql =
+            @"SELECT COUNT(*) FROM Appointments  WHERE cast (AppointmentDate as Date)  BETWEEN @StartDate AND @EndDate";
+
+        return await connection.ExecuteScalarAsync<int>(sql,
+            new { StartDate = startDate, EndDate = endDate });
+    }
+
 
     #region Extra
 

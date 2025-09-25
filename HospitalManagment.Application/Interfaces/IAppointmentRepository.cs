@@ -19,10 +19,11 @@ public interface IAppointmentRepository
 
     Task<bool> UpdateAsync(Appointment appointment);
 
-    // Canc    el appointment
+    // Cancel appointment
     Task<bool> UpdateStatusAsync(int id);
 
     Task<IEnumerable<Appointment>> GetAppointmentsByDateAsync(string type, DateTime date);
+    Task<int> CountAppoitmentBetweenDateAsync(int? doctorId, DateTime startDate, DateTime endDate);
 
     #endregion
 
