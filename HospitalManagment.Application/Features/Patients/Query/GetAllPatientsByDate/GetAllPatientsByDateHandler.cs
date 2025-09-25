@@ -19,7 +19,7 @@ public class GetAllPatientsByDateHandler : IRequestHandler<GetAllPatientsByDateQ
     public async Task<IEnumerable<PatientDto>> Handle(GetAllPatientsByDateQuery request,
         CancellationToken cancellationToken)
     {
-        var result = await _patientRepository.GetAppointmentsByDateAsync(request.Type, request.Date);
+        var result = await _patientRepository.GetPatientsByAppointmentDateAsync(request.Type, request.Date);
         if (!result.Any()) throw new Exception($" Their is no entry of appointment on date {request.Date}");
 
         var patientEnity = _mapper.Map<IEnumerable<PatientDto>>(result);
