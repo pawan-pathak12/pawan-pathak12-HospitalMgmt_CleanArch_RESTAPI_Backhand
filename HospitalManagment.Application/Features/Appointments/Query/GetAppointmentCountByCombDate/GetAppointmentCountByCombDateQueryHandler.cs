@@ -1,5 +1,7 @@
-﻿using HospitalManagment.Application.Interfaces;
+﻿using HospitalManagment.Application.Common;
+using HospitalManagment.Application.Interfaces;
 using MediatR;
+using InvalidOperationException = System.InvalidOperationException;
 
 namespace HospitalManagment.Application.Features.Appointments.Query.GetAppointmentCountByCombDate;
 
@@ -17,8 +19,8 @@ public class GetAppointmentCountByCombDateQueryHandler : IRequestHandler<GetAppo
         var result =
             await _appointmentRepository.GetAppointmentCountByDateAsync(request.Year, request.Month, request.Day,
                 request.DateTime);
-        if (result == -1) throw new Exception("PLease select Valid combination");
-        if (result == 0) throw new Exception($" their is {result} Appointments ");
+        if (result == -1) throw new InvalidOperationException("PLease select Valid combination");
+        if (result == 0) throw new NotFoundException($" their is {result} Appointments ");
 
         return result;
     }

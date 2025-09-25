@@ -21,9 +21,9 @@ public class GetPatientDoctorVisitCountQueryHandler : IRequestHandler<GetPatient
     public async Task<int> Handle(GetPatientDoctorVisitCountQuery request, CancellationToken cancellationToken)
     {
         var doctor = await _doctorRepository.GetByIdAsync(request.DoctorId);
-        if (doctor == null) throw new Exception("");
+        if (doctor == null) throw new NotFoundException($"Their is no Doctor with Id {request.DoctorId}");
         var patient = await _patientRepository.GetByIdAsync(request.PatientId);
-        if (patient == null) throw new Exception("");
+        if (patient == null) throw new NotFoundException($"Their is no Patient with Id {request.PatientId}");
         var count = await _appointmentLogicTester.GetPatientDoctorVisitCountAsync(request.PatientId, request.DoctorId,
             request.Year, request.Month);
         if (count == 0) throw new NotFoundException("Their is no Appointment");

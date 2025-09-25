@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HospitalManagment.Application.Common;
 using HospitalManagment.Application.Features.Appointments.DTOs;
 using HospitalManagment.Application.Interfaces;
 using MediatR;
@@ -21,7 +22,7 @@ public class
         CancellationToken cancellationToken)
     {
         var result = await _appointmentRepository.GetAppointmentsByDateAsync(request.Type, request.Date);
-        if (!result.Any()) throw new Exception($"Their is no Appointment on {request.Date}");
+        if (!result.Any()) throw new NotFoundException($"Their is no Appointment on {request.Date}");
         var appointments = _mapper.Map<IEnumerable<AppointmentDto>>(result);
         return appointments;
     }
