@@ -166,6 +166,9 @@ public class AppointmentRepository : IAppointmentRepository
 
     private Task<IEnumerable<SlotDto>> GetAvailableSlotAsync(int doctorId)
     {
+        using var connection = _dbContext.Connection();
+        var sql = " ";
+
         throw new NotImplementedException();
     }
 
