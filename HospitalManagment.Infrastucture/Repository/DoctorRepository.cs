@@ -15,6 +15,18 @@ public class DoctorRepository : IDoctorRepository
         _dapperDbContext = dapperDbContext;
     }
 
+    #region Extra
+
+    public async Task<int> GetDoctorDailyWorkingHoursAsync(int doctorId)
+    {
+        using var connection = _dapperDbContext.Connection();
+        var sql = "select  DATEDIFF(hour , AvailableStartTime , AvailableEndTime) from Doctors where Id=@Id";
+        var result = await connection.ExecuteScalarAsync<int>(sql, new { Id = doctorId });
+        return result;
+    }
+
+    #endregion
+
     #region CURD Operations of Doctors
 
     async Task<Doctor> IDoctorRepository.AddAsync(Doctor doctor)
