@@ -2,6 +2,7 @@
 using HospitalManagment.Application.Features.Doctors.DTOs;
 using HospitalManagment.Application.Interfaces;
 using HospitalManagment.Domain.Entity;
+using HospitalManagment.Domain.Enums;
 using HospitalManagment.Infrastucture.Data;
 
 namespace HospitalManagment.Infrastucture.Repository;
@@ -14,6 +15,33 @@ public class DoctorRepository : IDoctorRepository
     {
         _dapperDbContext = dapperDbContext;
     }
+
+    #region Extra
+
+    public async Task<int> GetDoctorDailyWorkingHoursAsync(int doctorId)
+    {
+        using var connection = _dapperDbContext.Connection();
+        var sql = "select  DATEDIFF(hour , AvailableStartTime , AvailableEndTime) from Doctors where Id=@Id";
+        var result = await connection.ExecuteScalarAsync<int>(sql, new { Id = doctorId });
+        return result;
+    }
+
+    public async Task<int> GetDoctorBookedAppointmentCountAsync(int doctorId)
+    {
+        using var connection = _dapperDbContext.Connection();
+        var parms = new
+        {
+            DoctorId = doctorId,
+            Status1 = AppointmentStatus.Scheduled,
+            Status2 = AppointmentStatus.OnGoing
+        };
+        var sql =
+            " select COUNT(*) from Appointments where Appointments.DoctorId= @DoctorId and Status between @Status1 and @status2 ";
+        var result = await connection.ExecuteScalarAsync<int>(sql, parms);
+        return result;
+    }
+
+    #endregion
 
     #region CURD Operations of Doctors
 

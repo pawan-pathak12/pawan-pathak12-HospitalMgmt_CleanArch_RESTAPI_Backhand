@@ -12,6 +12,13 @@ public interface IDoctorRepository
 
     Task<int> GetDoctorAppointmentCountByDateAsync(string type, int doctorId);
 
+    #region Extra
+
+    Task<int> GetDoctorDailyWorkingHoursAsync(int doctorId);
+    Task<int> GetDoctorBookedAppointmentCountAsync(int doctorId);
+
+    #endregion
+
     #region CURD Operations
 
     Task<IEnumerable<Doctor>> GetAllAsync();
