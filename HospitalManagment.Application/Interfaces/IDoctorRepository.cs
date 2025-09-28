@@ -15,6 +15,7 @@ public interface IDoctorRepository
     #region Extra
 
     Task<int> GetDoctorDailyWorkingHoursAsync(int doctorId);
+    Task<int> GetDoctorBookedAppointmentCountAsync(int doctorId);
 
     #endregion
 
