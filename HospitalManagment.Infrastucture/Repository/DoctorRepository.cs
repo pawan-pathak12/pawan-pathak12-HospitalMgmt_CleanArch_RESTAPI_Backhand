@@ -41,6 +41,20 @@ public class DoctorRepository : IDoctorRepository
         return result;
     }
 
+    public async Task<int> GetDoctorRemainingAppointmentSlotsAsync(int doctorId)
+    {
+        using var connection = _dapperDbContext.Connection();
+
+        // Each appointment = 30 minutes, so total slots = working hours * 2
+        var totalSlots = 2 * await GetDoctorDailyWorkingHoursAsync(doctorId);
+
+        var bookedSlots = await GetDoctorBookedAppointmentCountAsync(doctorId);
+
+        var remainingSlots = totalSlots - bookedSlots;
+
+        return Math.Max(0, remainingSlots); // never return negative
+    }
+
     #endregion
 
     #region CURD Operations of Doctors
