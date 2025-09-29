@@ -16,7 +16,7 @@ public class DoctorRepository : IDoctorRepository
         _dapperDbContext = dapperDbContext;
     }
 
-    #region Extra
+    #region Doctor Appointment Availability
 
     public async Task<int> GetDoctorDailyWorkingHoursAsync(int doctorId)
     {
@@ -39,6 +39,20 @@ public class DoctorRepository : IDoctorRepository
             " select COUNT(*) from Appointments where Appointments.DoctorId= @DoctorId and Status between @Status1 and @status2 ";
         var result = await connection.ExecuteScalarAsync<int>(sql, parms);
         return result;
+    }
+
+    public async Task<int> GetDoctorRemainingAppointmentSlotsAsync(int doctorId)
+    {
+        using var connection = _dapperDbContext.Connection();
+
+        // Each appointment = 30 minutes, so total slots = working hours * 2
+        var totalSlots = 2 * await GetDoctorDailyWorkingHoursAsync(doctorId);
+
+        var bookedSlots = await GetDoctorBookedAppointmentCountAsync(doctorId);
+
+        var remainingSlots = totalSlots - bookedSlots;
+
+        return Math.Max(0, remainingSlots); // never return negative
     }
 
     #endregion

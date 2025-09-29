@@ -10,10 +10,12 @@ namespace HospitalManagment.Infrastucture.Repository;
 public class AppointmentRepository : IAppointmentRepository
 {
     private readonly DapperDbContext _dbContext;
+    private readonly IDoctorRepository _doctorRepository;
 
-    public AppointmentRepository(DapperDbContext dbContext)
+    public AppointmentRepository(DapperDbContext dbContext, IDoctorRepository doctorRepository)
     {
         _dbContext = dbContext;
+        _doctorRepository = doctorRepository;
     }
 
     #region Appointment Retrieval
@@ -117,6 +119,17 @@ public class AppointmentRepository : IAppointmentRepository
         return await connection.ExecuteScalarAsync<int>(sql,
             new { StartDate = startDate, EndDate = endDate });
     }
+
+    #region Doctor Appointment Availability
+
+    // public async Task<AvailableSlotsDto> GetDoctorAvailableAppointmentTimesAsync(int doctorId)
+    // {
+    //     using var connection = _dbContext.Connection();
+    //     var doctorWorkingHour = await _doctorRepository.GetDoctorWorkingHourAsync(doctorId);
+    //     return doctorWorkingHour; 
+    // }
+
+    #endregion
 
 
     #region Extra
