@@ -16,7 +16,7 @@ public class DoctorRepository : IDoctorRepository
         _dapperDbContext = dapperDbContext;
     }
 
-    #region Extra
+    #region Doctor Appointment Availability
 
     public async Task<int> GetDoctorDailyWorkingHoursAsync(int doctorId)
     {
