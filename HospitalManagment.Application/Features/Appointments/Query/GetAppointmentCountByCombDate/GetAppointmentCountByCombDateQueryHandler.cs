@@ -1,17 +1,19 @@
-﻿using HospitalManagment.Application.Common;
-using HospitalManagment.Application.Interfaces;
+﻿using HospitalManagment.Application.Interfaces;
 using MediatR;
-using InvalidOperationException = System.InvalidOperationException;
+using Microsoft.Extensions.Logging;
 
 namespace HospitalManagment.Application.Features.Appointments.Query.GetAppointmentCountByCombDate;
 
 public class GetAppointmentCountByCombDateQueryHandler : IRequestHandler<GetAppointmentCountByCombDateQuery, int>
 {
     private readonly IAppointmentRepository _appointmentRepository;
+    private readonly ILogger<GetAppointmentCountByCombDateQueryHandler> _logger;
 
-    public GetAppointmentCountByCombDateQueryHandler(IAppointmentRepository appointmentRepository)
+    public GetAppointmentCountByCombDateQueryHandler(IAppointmentRepository appointmentRepository,
+        ILogger<GetAppointmentCountByCombDateQueryHandler> logger)
     {
         _appointmentRepository = appointmentRepository;
+        _logger = logger;
     }
 
     public async Task<int> Handle(GetAppointmentCountByCombDateQuery request, CancellationToken cancellationToken)
@@ -19,9 +21,10 @@ public class GetAppointmentCountByCombDateQueryHandler : IRequestHandler<GetAppo
         var result =
             await _appointmentRepository.GetAppointmentCountByDateAsync(request.Year, request.Month, request.Day,
                 request.DateTime);
-        if (result == -1) throw new InvalidOperationException("PLease select Valid combination");
-        if (result == 0) throw new NotFoundException($" their is {result} Appointments ");
-
+        if (result == -1)
+            _logger.LogError("PLease select Valid combination");
+        if (result == 0)
+            _logger.LogWarning($" Their is {result} Appointments ");
         return result;
     }
 }
