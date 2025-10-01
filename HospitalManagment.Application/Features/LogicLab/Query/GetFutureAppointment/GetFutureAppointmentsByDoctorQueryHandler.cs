@@ -1,7 +1,8 @@
-﻿using HospitalManagment.Application.Common;
+﻿using AutoMapper;
 using HospitalManagment.Application.Features.Appointments.DTOs;
 using HospitalManagment.Application.Interfaces;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace HospitalManagment.Application.Features.LogicLab.Query.GetFutureAppointment;
 
@@ -11,25 +12,26 @@ public class
 {
     private readonly IAppointmentLogicTester _appointmentLogicTester;
     private readonly IDoctorRepository _doctorRepository;
+    private readonly ILogger<GetFutureAppointmentsByDoctorQueryHandler> _logger;
+    private readonly IMapper _mapper;
 
     public GetFutureAppointmentsByDoctorQueryHandler(IAppointmentLogicTester appointmentLogicTester,
-        IDoctorRepository doctorRepository)
+        IDoctorRepository doctorRepository, ILogger<GetFutureAppointmentsByDoctorQueryHandler> logger, IMapper mapper)
     {
         _appointmentLogicTester = appointmentLogicTester;
         _doctorRepository = doctorRepository;
+        _logger = logger;
+        _mapper = mapper;
     }
 
     public async Task<IEnumerable<AppointmentDto>> Handle(GetFutureAppointmentsByDoctorQuery request,
         CancellationToken cancellationToken)
     {
         var doctor = await _doctorRepository.GetByIdAsync(request.DoctorId);
-        if (doctor == null) throw new NotFoundException($"Their is no record of Doctor with Id {request.DoctorId}");
+        if (doctor == null)
+            _logger.LogWarning($"Their is no record of Doctor with Id {request.DoctorId}");
         var appointment = await _appointmentLogicTester.GetFutureAppointmentsByDoctorAsync(request.DoctorId);
-        var result = appointment.Select(s => new AppointmentDto
-        {
-            DoctorId = s.DoctorId, AppointmentDate = s.AppointmentDate, EndTime = s.EndTime, Id = s.Id,
-            PatientId = s.PatientId, StartTime = s.StartTime, Status = s.Status
-        });
-        return result;
+        var doctorEntity = _mapper.Map<IEnumerable<AppointmentDto>>(appointment);
+        return doctorEntity;
     }
 }
