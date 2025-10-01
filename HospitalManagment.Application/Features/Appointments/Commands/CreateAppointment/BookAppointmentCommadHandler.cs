@@ -1,21 +1,23 @@
 ﻿using AutoMapper;
-using HospitalManagment.Application.Common;
 using HospitalManagment.Application.Interfaces;
 using HospitalManagment.Domain.Entity;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace HospitalManagment.Application.Features.Appointments.Commands.CreateAppointments;
 
 public class BookAppointmentCommadHandler : IRequestHandler<BookAppointmentCommand, Appointment>
 {
     public BookAppointmentCommadHandler(IAppointmentRepository repository, IDoctorRepository doctorRepository,
-        IPatientRepository patientRepository, IAppointmentLogicTester appointmentLogicTester, IMapper mapper)
+        IPatientRepository patientRepository, IAppointmentLogicTester appointmentLogicTester, IMapper mapper,
+        ILogger<BookAppointmentCommadHandler> logger)
     {
         _appointmentRepository = repository;
         _doctorRepository = doctorRepository;
         _patientRepository = patientRepository;
         _appointmentLogicTester = appointmentLogicTester;
         _mapper = mapper;
+        _logger = logger;
     }
 
     public async Task<Appointment> Handle(BookAppointmentCommand request, CancellationToken cancellationToken)
@@ -60,7 +62,8 @@ public class BookAppointmentCommadHandler : IRequestHandler<BookAppointmentComma
             request.Appointment.AppointmentDate,
             request.Appointment.StartTime
         );
-        if (!isSpaced) throw new Exception("Requested time is too close to another appointment");
+        if (!isSpaced)
+            _logger.LogWarning("Requested time is too close to another appointment");
     }
 
     #endregion
@@ -72,6 +75,7 @@ public class BookAppointmentCommadHandler : IRequestHandler<BookAppointmentComma
     private readonly IPatientRepository _patientRepository;
     private readonly IAppointmentLogicTester _appointmentLogicTester;
     private readonly IMapper _mapper;
+    private readonly ILogger<BookAppointmentCommadHandler> _logger;
 
     #endregion
 
@@ -82,7 +86,8 @@ public class BookAppointmentCommadHandler : IRequestHandler<BookAppointmentComma
     {
         var patient = new Patient(); // Placeholder, not used
         var isExisted = await _appointmentRepository.CheckPatientExisting(request.Appointment.PatientId);
-        if (!isExisted) throw new NotFoundException($"Patient with Id {request.Appointment.PatientId} dont Exists");
+        if (!isExisted)
+            _logger.LogWarning($"Patient with Id {request.Appointment.PatientId} dont Exists");
     }
 
     // Check how many bookings the patient has on the given date
@@ -91,22 +96,22 @@ public class BookAppointmentCommadHandler : IRequestHandler<BookAppointmentComma
         var result = await _appointmentRepository.CheckNumberOfBookingOfPatient(request.Appointment.PatientId,
             request.Appointment.AppointmentDate);
         if (result > 3)
-            throw new BusinessRuleException(
-                $"Pateint with Id {request.Appointment.PatientId} Cross Maximum Limit Of Book");
+            _logger.LogWarning($"Pateint with Id {request.Appointment.PatientId} Cross Maximum Limit Of Book");
     }
 
     // Block patient from booking if they have too many cancellations or miss
     private async Task CheckAndBlockPatientAsync(int patientId)
     {
         var patient = await _doctorRepository.GetByIdAsync(patientId); // Should ideally use patient repo
-        if (patient == null) throw new NotFoundException($"Patient with Id {patientId} not found");
+        if (patient == null)
+            _logger.LogWarning($"Patient with Id {patientId} not found");
 
         var cancelCount = await _appointmentLogicTester.CheckAndBlockPatientIfNeededAsync(patientId);
         if (cancelCount > 3)
         {
             var blockUntil = DateTime.UtcNow.AddDays(3);
             await _patientRepository.SetPatientBlockUntilAsync(blockUntil, patientId);
-            throw new BusinessRuleException(
+            _logger.LogWarning(
                 $"patient with Id {patientId} is blocked till date {blockUntil} from Booking Appointment.");
         }
     }
@@ -119,7 +124,8 @@ public class BookAppointmentCommadHandler : IRequestHandler<BookAppointmentComma
     private async Task CheckDoctorInfoAsync(BookAppointmentCommand request)
     {
         var doctor = await _doctorRepository.GetByIdAsync(request.Appointment.DoctorId);
-        if (doctor == null) throw new NotFoundException("Doctor not found");
+        if (doctor == null)
+            _logger.LogWarning($"Doctor not found with Id {request.Appointment.DoctorId}");
     }
 
     // Check if doctor is active on the appointment date
@@ -127,7 +133,7 @@ public class BookAppointmentCommadHandler : IRequestHandler<BookAppointmentComma
     {
         var result = await _doctorRepository.IsDoctorActiveAsync(request.Appointment.DoctorId);
         if (!result)
-            throw new BusinessRuleException(
+            _logger.LogWarning(
                 $"Doctor with Id {request.Appointment.DoctorId} is inactive in time {request.Appointment.AppointmentDate}.");
     }
 
@@ -143,7 +149,9 @@ public class BookAppointmentCommadHandler : IRequestHandler<BookAppointmentComma
             endTime
         );
 
-        if (!isAvailable) throw new NotFoundException("Doctor is not available for the requested time.");
+        if (!isAvailable)
+            _logger.LogWarning(
+                $"Doctor with Id {request.Appointment.DoctorId} is not available for the requested time.");
     }
 
     // Check if doctor has reached maximum daily appointments
@@ -155,8 +163,7 @@ public class BookAppointmentCommadHandler : IRequestHandler<BookAppointmentComma
             await _appointmentRepository.CountBookingsAsync(request.Appointment.DoctorId,
                 request.Appointment.AppointmentDate);
         if (currentBookingCount > maxBooking)
-            throw new BusinessRuleException(
-                $"Booking is out of limit for Doctor with id{request.Appointment.DoctorId}");
+            _logger.LogWarning($"Booking is out of limit for Doctor with id{request.Appointment.DoctorId}");
     }
 
     #endregion
@@ -167,11 +174,12 @@ public class BookAppointmentCommadHandler : IRequestHandler<BookAppointmentComma
     private async Task CheckStartTimeWithinWorkingHoursAsync(BookAppointmentCommand request)
     {
         var workingHourOfDoctor = await _doctorRepository.GetDoctorWorkingHourAsync(request.Appointment.DoctorId);
-        if (workingHourOfDoctor == null) throw new NotFoundException("Doctor's working hours not found.");
+        if (workingHourOfDoctor == null)
+            _logger.LogWarning("Doctor's working hours not found.");
         var appointmentDate = request.Appointment.AppointmentDate.TimeOfDay;
         if (appointmentDate < workingHourOfDoctor.AvailableStartTime ||
             appointmentDate > workingHourOfDoctor.AvailableEndTime)
-            throw new BusinessRuleException("Appointment time is outside the doctor's working hours.");
+            _logger.LogWarning("Appointment time is outside the doctor's working hours.");
     }
 
     // Block booking during lunch break (12:00–13:00)
@@ -180,22 +188,23 @@ public class BookAppointmentCommadHandler : IRequestHandler<BookAppointmentComma
         var lunchStartTime = new TimeSpan(12, 0, 0);
         var lunchEndTime = new TimeSpan(13, 0, 0);
         if (request.Appointment.StartTime >= lunchStartTime && request.Appointment.StartTime < lunchEndTime)
-            throw new BusinessRuleException(
-                $"Appointment creation failed as this is launch time .Try again after {lunchEndTime}");
+            _logger.LogWarning($"Appointment creation failed as this is launch time .Try again after {lunchEndTime}");
     }
 
     // Block booking on Sunday
     private async Task BlockBookingOnSunday(DateTime appointmentDate)
     {
         var isSunday = await _appointmentRepository.BlockBookingOnSundayAsync(appointmentDate);
-        if (isSunday) throw new BusinessRuleException("Today is holiday , you can try next Day.");
+        if (isSunday)
+            _logger.LogWarning("Today is holiday , you can try next Day.");
     }
 
     // Block booking more than 30 days in advance
     private async Task BlockBookingIfOutOfDate(DateTime appointmentDate)
     {
         var isOutOfDate = await _appointmentRepository.BlockBookingOutOfDate(appointmentDate);
-        if (isOutOfDate) throw new BusinessRuleException("Appointment date must be within 1 to 30 days from today.");
+        if (isOutOfDate)
+            _logger.LogWarning("Appointment date must be within 1 to 30 days from today.");
     }
 
     // Block booking less than 2 hours in advance and appointment date is not in past 
@@ -204,10 +213,11 @@ public class BookAppointmentCommadHandler : IRequestHandler<BookAppointmentComma
         var appointmentDateTime = request.Appointment.AppointmentDate.Date.Add(request.Appointment.StartTime);
 
         if (appointmentDateTime <= DateTime.Now)
-            throw new BusinessRuleException("Appointment time must be in the future.");
+            _logger.LogWarning("Appointment time must be in the future.");
         var isBookingValid =
             await _appointmentRepository.BookingDateValidationAsync(request.Appointment.AppointmentDate);
-        if (isBookingValid) throw new BusinessRuleException("You must Book Appointment before 2 hours");
+        if (isBookingValid)
+            _logger.LogWarning("You must Book Appointment before 2 hours");
     }
 
     #endregion
