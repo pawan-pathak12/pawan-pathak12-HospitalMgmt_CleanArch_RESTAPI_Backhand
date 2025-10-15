@@ -1,25 +1,25 @@
 ﻿using HospitalManagment.Application.Interfaces;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
-namespace HospitalManagment.Application.Features.Appointments.Commands.AutoMarkStatusNoShow
+namespace HospitalManagment.Application.Features.Appointments.Commands.AutoMarkStatusNoShow;
+
+public class AutoMarkStatusNotShownCommandHandler : IRequestHandler<AutoMarkStatusNotShownCommand>
 {
-    public class AutoMarkStatusNotShownCommandHandler : IRequestHandler<AutoMarkStatusNotShownCommand>
+    private readonly IAppointmentRepository _appointmentRepository;
+    private readonly ILogger<AutoMarkStatusNotShownCommandHandler> _logger;
+
+    public AutoMarkStatusNotShownCommandHandler(IAppointmentRepository appointmentRepository,
+        ILogger<AutoMarkStatusNotShownCommandHandler> logger)
     {
-        private readonly IAppointmentRepository _appointmentRepository;
+        _appointmentRepository = appointmentRepository;
+        _logger = logger;
+    }
 
-        public AutoMarkStatusNotShownCommandHandler(IAppointmentRepository appointmentRepository)
-        {
-            this._appointmentRepository = appointmentRepository;
-        }
-
-        public async Task Handle(AutoMarkStatusNotShownCommand request, CancellationToken cancellationToken)
-        {
-            var shownAppointment = await _appointmentRepository.GetPastScheduledAppointmentsAsync();
-            if (!shownAppointment.Any())
-            {
-                throw new Exception("There are no past scheduled appointments.");
-            }
-            await _appointmentRepository.MarkAppointmentsAsNotShownAsync();
-        }
+    public async Task Handle(AutoMarkStatusNotShownCommand request, CancellationToken cancellationToken)
+    {
+        var shownAppointment = await _appointmentRepository.GetPastScheduledAppointmentsAsync();
+        if (!shownAppointment.Any()) _logger.LogWarning("There are no past scheduled appointments.");
+        await _appointmentRepository.MarkAppointmentsAsNotShownAsync();
     }
 }

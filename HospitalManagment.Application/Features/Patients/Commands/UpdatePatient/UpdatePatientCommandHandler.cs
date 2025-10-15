@@ -1,32 +1,32 @@
 ﻿using AutoMapper;
-using HospitalManagment.Application.Features.Patients.DTOs;
 using HospitalManagment.Application.Interfaces;
 using HospitalManagment.Domain.Entity;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
-namespace HospitalManagment.Application.Features.Patients.Commands.UpdatePatient
+namespace HospitalManagment.Application.Features.Patients.Commands.UpdatePatient;
+
+public class UpdatePatientCommandHandler : IRequestHandler<UpdatePatientCommand, Unit>
 {
-    public class UpdatePatientCommandHandler : IRequestHandler<UpdatePatientCommand, Unit>
+    private readonly ILogger<UpdatePatientCommandHandler> _logger;
+    private readonly IMapper _mapper;
+    private readonly IPatientRepository _repository;
+
+    public UpdatePatientCommandHandler(IPatientRepository repository, IMapper mapper,
+        ILogger<UpdatePatientCommandHandler> logger)
     {
-        private readonly IPatientRepository _repository;
-        private readonly IMapper _mapper;
+        _repository = repository;
+        _mapper = mapper;
+        _logger = logger;
+    }
 
-        public UpdatePatientCommandHandler(IPatientRepository repository, IMapper mapper)
-        {
-            this._repository = repository;
-            this._mapper = mapper;
-        }
-        public async Task<Unit> Handle(UpdatePatientCommand request, CancellationToken cancellationToken)
-        {
-            var result = await _repository.GetByIdAsync(request.Patient.Id);
-            if (result == null)
-            {
-                throw new Exception("Error or update failed.");
-            }
-
-            var patient = _mapper.Map<Patient>(request.Patient);
-            await _repository.UpdateAsync(request.Patient.Id, patient);
-            return Unit.Value;
-        }
+    public async Task<Unit> Handle(UpdatePatientCommand request, CancellationToken cancellationToken)
+    {
+        var result = await _repository.GetByIdAsync(request.Patient.Id);
+        if (result == null)
+            _logger.LogWarning($"Their is no Patient with Id {request.Patient.Id}");
+        var patient = _mapper.Map<Patient>(request.Patient);
+        await _repository.UpdateAsync(request.Patient.Id, patient);
+        return Unit.Value;
     }
 }
