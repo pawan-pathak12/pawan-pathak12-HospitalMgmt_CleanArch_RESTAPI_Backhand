@@ -6,3 +6,4 @@ obj/
 *.log
 *.user
 .vs/
+appsettings.json
